@@ -57,6 +57,19 @@ def write6DoF(path, startTime, endTime, tSoft, N, \
         f.write(")")
     f.close()
 
+def write6DoF2(path, time, \
+              transX, transY, transZ, \
+              rotX, rotY, rotZ):
+    N = len(time)
+    with open(path, "w") as f:
+        f.write(f"{N}\n(\n")
+        for i in range(N):
+            time_, transX_, transY_, transZ_, rotX_, rotY_, rotZ_ = \
+                time[i], transX[i], transY[i], transZ[i], rotX[i], rotY[i], rotZ[i]
+            f.write(f"({time_:.6f} (({transX_:.6f} {transY_:.6f} {transZ_:.6f}) ({rotX_:.6f} {rotY_:.6f} {rotZ_:.6f})))\n")
+        f.write(")")
+    f.close()
+
 def setup_openfoam(path):
     with open(f"{path}/initial.dat", "w") as f:
         f.write("np={}\n".format(int(numProc)))

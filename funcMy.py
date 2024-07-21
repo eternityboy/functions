@@ -216,6 +216,7 @@ def fftAnalyze(x, y):
     meanAmpl = ones(len(x)) * sigAmp
     return x_fft[1:], y_fft[1:], meanAmpl[1:], sigFreq, sigAmp
     #return x_fft, y_fft, meanAmpl, sigFreq, sigAmp
+
 def fftAnalyze2(x, y):
     from scipy import signal
     from numpy import argmax
