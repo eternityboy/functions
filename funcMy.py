@@ -187,3 +187,40 @@ def rotation6DoF(time, transAmp, transOmega, transPhase, rotAmp, rotOmega, rotPh
     rotY = rotAmp[1] * np.sin(rotOmega[1] * time + rotPhase[1])
     rotZ = rotAmp[2] * np.sin(rotOmega[2] * time + rotPhase[2])
     return transX, transY, transZ, rotX, rotY, rotZ
+
+
+def newSignal(x, y):
+    from scipy import signal, interpolate
+    from numpy import diff, min, arange
+    y = signal.detrend(y)
+    dxnew = min(diff(x))
+    # dxnew = (x[1] - x[0])
+    xnew = arange(x[0], x[len(x) - 1], dxnew)
+    f = interpolate.interp1d(x, y, kind='linear')
+    ynew = f(xnew)
+    return xnew, ynew
+
+def fftAnalyze(x, y):
+    from scipy import fft
+    from numpy import abs, argmax, ones
+    y_fft = fft.fft(y)
+    dx = x[1] - x[0]
+    freqs = fft.fftfreq(len(x), d=dx)
+    #freqs = np.linspace(0, 1.0 / (2.0 * dx), len(x) // 2)
+    x_fft = freqs[:len(x) // 2]
+    y_fft = 2.0 / len(x) * abs(y_fft[:len(x) // 2])
+    y_fft2 = abs(fft.fft(y)/len(x))
+    sigFreq = freqs[argmax(y_fft)]
+    sigAmp = 2*y_fft[argmax(y_fft)]
+    print("Significant Amplitude = {}, Frequency = {}".format(sigAmp, sigFreq))
+    meanAmpl = ones(len(x)) * sigAmp
+    return x_fft[1:], y_fft[1:], meanAmpl[1:], sigFreq, sigAmp
+    #return x_fft, y_fft, meanAmpl, sigFreq, sigAmp
+def fftAnalyze2(x, y):
+    from scipy import signal
+    from numpy import argmax
+    from math import sqrt
+    f, Pxx_den = signal.welch(y, fs=1/(x[1]-x[0]), nperseg=1024, scaling='spectrum')
+    sigFreq = f[argmax(Pxx_den)]
+    sigAmp = 2*sqrt(Pxx_den[argmax(Pxx_den)])
+    print("Significant Amplitude = {}, Frequency = {}".format(sigAmp, sigFreq))
