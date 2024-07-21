@@ -217,11 +217,11 @@ def fftAnalyze(x, y):
     return x_fft[1:], y_fft[1:], meanAmpl[1:], sigFreq, sigAmp
     #return x_fft, y_fft, meanAmpl, sigFreq, sigAmp
 
-def fftAnalyze2(x, y, nperseg=512, overlap=128,  scaling='spectrum'):
+def fftAnalyze2(x, y, nperseg=512, noverlap=128,  scaling='spectrum'):
     from scipy import signal
     from numpy import argmax
     from math import sqrt
-    f, Pxx_den = signal.welch(y, fs=1/(x[1]-x[0]), nperseg=nperseg, overlap=overlap, scaling=scaling)
+    f, Pxx_den = signal.welch(y, fs=1/(x[1]-x[0]), nperseg=nperseg, noverlap=noverlap, scaling=scaling)
     sigFreq = f[argmax(Pxx_den)]
     sigAmp = 2*sqrt(Pxx_den[argmax(Pxx_den)])
     print("Significant Amplitude = {}, Frequency = {}".format(sigAmp, sigFreq))
