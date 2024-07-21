@@ -217,7 +217,7 @@ def fftAnalyze(x, y):
     return x_fft[1:], y_fft[1:], meanAmpl[1:], sigFreq, sigAmp
     #return x_fft, y_fft, meanAmpl, sigFreq, sigAmp
 
-def fftAnalyze2(x, y):
+def fftAnalyze2(x, y, nperseg=512, overlap=128,):
     from scipy import signal
     from numpy import argmax
     from math import sqrt
