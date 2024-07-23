@@ -43,13 +43,13 @@ def write6DoF(path, startTime, endTime, tSoft, N, \
         for i in range(N):
             if time[i] < tSoft:
                 time_ = time[i]
-                damper = damper(tSoft, time[i], dtype=damperType)
-                transX_ = transX[i] * damper
-                transY_ = transY[i] * damper
-                transZ_ = transZ[i] * damper
-                rotX_ = rotX[i] * damper
-                rotY_ = rotY[i] * damper
-                rotZ_ = rotZ[i] * damper
+                dampCoeff = damper(tSoft, time[i], dtype=damperType)
+                transX_ = transX[i] * dampCoeff
+                transY_ = transY[i] * dampCoeff
+                transZ_ = transZ[i] * dampCoeff
+                rotX_ = rotX[i] * dampCoeff
+                rotY_ = rotY[i] * dampCoeff
+                rotZ_ = rotZ[i] * dampCoeff
             else:
                 time_, transX_, transY_, transZ_, rotX_, rotY_, rotZ_ = \
                     time[i], transX[i], transY[i], transZ[i], rotX[i], rotY[i], rotZ[i]
