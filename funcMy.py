@@ -225,3 +225,4 @@ def fftAnalyze2(x, y, nperseg=512, noverlap=128,  scaling='spectrum'):
     sigFreq = f[argmax(Pxx_den)]
     sigAmp = 2*sqrt(Pxx_den[argmax(Pxx_den)])
     print("Significant Amplitude = {}, Frequency = {}".format(sigAmp, sigFreq))
+    return f, Pxx_den, sigAmp, sigFreq
